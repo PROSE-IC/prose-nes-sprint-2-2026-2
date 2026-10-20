@@ -1,0 +1,15 @@
+__pycache__/
+.venv/
+.tmp/
+.streamlit/secrets.toml
+*.xlsx
+*.xls
+*.xlsm
+*.csv
+*.json
+*.zip
+data/raw/
+data/auditoria/
+auditoria/
+exports/
+relat_alunos/
