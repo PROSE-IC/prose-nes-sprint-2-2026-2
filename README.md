@@ -8,8 +8,11 @@ Dashboard por equipe para as devolutivas do Survey Alunos, com historico das Spr
 | --- | --- | --- | --- | --- |
 | T1 | Biblioteca do NDH | Marcio | Vespertino | 6/6 (100,0%) |
 | T7 | Notifica Saude | Turine | Noturno | 1/6 (16,7%) |
+| T10 | SCM | Turine | Vespertino | 5/6 (83,3%) |
 
 Publicacao inicial em 20/10/2026, do T1. T7 acrescentado em 27/10/2026, com seu relatorio PDF. Outras equipes poderao ser acrescentadas posteriormente, preservando a mesma estrutura.
+
+T10 acrescentado em 28/10/2026, com cinco envios nominais classificados, historico preservado e PDF no mesmo modelo. A atualizacao tambem renova a referencia comparativa do PDF do T7, sem alterar suas respostas ou notas.
 
 No T1, a contagem representa seis envios classificados para a equipe, sendo tres nominais e tres com pseudonimo. Pseudonimos nao permitem confirmar a identidade individual de cada respondente. O historico do T1 foi preservado do repositorio da Sprint 1, sem recalcular as notas anteriores.
 
@@ -21,7 +24,9 @@ O T7 tem um envio identificado por pseudonimo de equipe. Seus relatos das Sprint
 - `teams/t1/app.py`: entrada independente do T1 no Streamlit.
 - `teams/t1/data/relatos/`: relatos agregados das Sprints 0, 1 e 2.
 - `teams/t7/app.py`: entrada independente do T7, com relatos agregados das Sprints 0, 1 e 2.
+- `teams/t10/app.py`: entrada independente do T10, com relatos agregados das Sprints 0, 1 e 2.
 - `pdfs/relatorio_T7_sprint_2.pdf`: devolutiva do T7 no modelo aprovado de cinco paginas.
+- `pdfs/relatorio_T10_sprint_2.pdf`: devolutiva do T10 no mesmo modelo de cinco paginas.
 - `common/pdf_report.py`, `assets/` e `scripts/export_team_pdf.py`: modelo e exportador do PDF.
 - `docs/metodologia-dashboard.md`: criterios de calculo e interpretacao.
 - `tests/test_dashboard.py`: verificacoes de leitura, filtros e comparacao contextual.
@@ -36,7 +41,7 @@ Selecionar este repositorio, branch `main`, e a entrada:
 teams/t1/app.py
 ```
 
-Para o T7, usar `teams/t7/app.py`.
+Para o T7, usar `teams/t7/app.py`; para o T10, `teams/t10/app.py`.
 
 Para executar localmente:
 
@@ -53,13 +58,15 @@ Respostas vazias e "Prefiro nao responder" permanecem ausentes, sem imputacao de
 
 No T7, o item condicional de discussao da solucao nao tem resposta valida. Ele nao recebeu zero e foi excluido dos pontos fortes e de atencao.
 
-A comparacao contextual exige pelo menos duas equipes na mesma sprint. A referencia atual inclui T1 e T7 e usa a media simples dos escores por equipe na sprint, incluindo a propria, sem ponderar pelo numero de envios e sem ranking. Nao representa todas as dez equipes do semestre.
+No T10, esse item condicional tem duas respostas validas entre os cinco envios. As demais 41 perguntas pontuadas tem cinco respostas validas. A pergunta de participacao nas discussoes usa quatro alternativas ordinais, da menor para a maior oportunidade de participacao.
+
+A comparacao contextual exige pelo menos duas equipes na mesma sprint. A referencia atual inclui T1, T7 e T10 e usa a media simples dos escores por equipe na sprint, incluindo a propria, sem ponderar pelo numero de envios e sem ranking. Nao representa todas as dez equipes do semestre.
 
 ## Privacidade e escopo
 
 Este repositorio contem codigo, relatos agregados e o PDF de devolutiva autorizado. A planilha de respostas, nomes de estudantes, respostas abertas, auditorias de identificacao e JSONs locais de processamento nao sao publicados.
 
-Esta entrega inclui os dashboards de T1 e T7 e o PDF da Sprint 2 do T7. Nao inclui novo deployment no Streamlit Cloud. Os dados ja publicados do T1 nao foram recalculados nesta atualizacao.
+Esta entrega inclui os dashboards de T1, T7 e T10 e os PDFs da Sprint 2 de T7 e T10. Nao inclui novo deployment no Streamlit Cloud. Os relatos e as notas ja publicados de T1 e T7 nao foram alterados nesta atualizacao.
 
 ## Testes
 

@@ -24,10 +24,10 @@ def comparison_with_two_teams():
 class DashboardTest(unittest.TestCase):
     def test_scope_and_reports(self):
         teams = {path.name for path in (ROOT / 'teams').iterdir() if path.is_dir()}
-        self.assertEqual(teams, {'t1', 't7'})
+        self.assertEqual(teams, {'t1', 't7', 't10'})
         reports = load_reports(ROOT / 'teams/t1/data/relatos', 'T1')
         self.assertEqual([report.sprint for report in reports], ['Sprint 0', 'Sprint 1', 'Sprint 2'])
-        self.assertEqual(len(load_all_team_reports(ROOT / 'teams/t1')), 6)
+        self.assertEqual(len(load_all_team_reports(ROOT / 'teams/t1')), 9)
         current = reports[-1]
         self.assertEqual(current.participation, '6/6 (100.0%)')
         self.assertTrue(math.isclose(current.overall, 6.894097222222222, abs_tol=0.005))
@@ -45,7 +45,7 @@ class DashboardTest(unittest.TestCase):
         self.assertEqual(app.sidebar.multiselect[0].value, ['Sprint 0', 'Sprint 1', 'Sprint 2'])
         self.assertEqual(len(app.get('plotly_chart')), 4)
         self.assertFalse(any('pelo menos duas equipes' in info.value for info in app.info))
-        self.assertTrue(any('T1, T7' in caption.value for caption in app.caption))
+        self.assertTrue(any('T1, T7, T10' in caption.value for caption in app.caption))
         app.sidebar.multiselect[0].set_value(['Sprint 2']).run()
         self.assertFalse(app.exception)
         self.assertEqual(app.selectbox[0].value, 'Sprint 2')
@@ -76,7 +76,25 @@ class DashboardTest(unittest.TestCase):
         app.sidebar.multiselect[0].set_value(['Sprint 2']).run()
         self.assertFalse(app.exception)
         self.assertTrue(any(metric.label == 'Nota do Survey' and metric.value == '5.00' for metric in app.metric))
-        self.assertTrue(any('T1, T7' in caption.value for caption in app.caption))
+        self.assertTrue(any('T1, T7, T10' in caption.value for caption in app.caption))
+
+    def test_t10_reports_and_filtered_dashboard(self):
+        reports = load_reports(ROOT / 'teams/t10/data/relatos', 'T10')
+        self.assertEqual([report.sprint for report in reports], ['Sprint 0', 'Sprint 1', 'Sprint 2'])
+        current = reports[-1]
+        self.assertEqual(current.participation, '5/6 (83.3%)')
+        self.assertTrue(math.isclose(current.overall, 5.527083333333334, abs_tol=.005))
+        self.assertEqual(len(current.space), 4)
+        self.assertIn(('Participa\u00e7\u00e3o nas discuss\u00f5es da equipe', 8.0), current.top5)
+        self.assertTrue(any('2 respostas v\u00e1lidas' in label for label, _ in current.top5))
+        app = AppTest.from_file(str(ROOT / 'teams/t10/app.py'), default_timeout=30).run()
+        self.assertFalse(app.exception)
+        self.assertIn('T10', app.title[0].value)
+        self.assertEqual(len(app.get('plotly_chart')), 4)
+        app.sidebar.multiselect[0].set_value(['Sprint 2']).run()
+        self.assertFalse(app.exception)
+        self.assertTrue(any(metric.label == 'Nota do Survey' and metric.value == '5.53' for metric in app.metric))
+        self.assertTrue(any('T1, T7, T10' in caption.value for caption in app.caption))
 
 
 if __name__ == '__main__':
